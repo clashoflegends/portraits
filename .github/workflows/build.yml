@@ -1,0 +1,37 @@
+name: Package portraits
+
+# On a `portraits-*` tag: zip all image content (everything except git/CI/README) into portraits.zip
+# and publish it as the Release asset. Counselor pulls releases/latest/download/portraits.zip and
+# extracts it flat into the player's portraits folder. Manual runs (workflow_dispatch) just build.
+
+on:
+  push:
+    tags: ["portraits-*"]
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to publish the Release on a tag
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip portraits
+        run: zip -r portraits.zip . -x ".git/*" ".github/*" "README.md"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: portraits
+          path: portraits.zip
+
+      - name: Publish release (tags only)
+        if: startsWith(github.ref, 'refs/tags/portraits-')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "${{ github.ref_name }}" portraits.zip
+          --repo "${{ github.repository }}"
+          --title "Portraits ${{ github.ref_name }}"
+          --notes "Character portrait pack. Counselor downloads this as portraits.zip (releases/latest/download/portraits.zip)."
