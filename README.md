@@ -11,7 +11,7 @@ the same images were already served publicly from `clashlegends.com/portraits/`.
 - `Teasers/` — teaser / splash images.
 
 ## Publishing a new pack (how Counselor picks it up)
-1. Add or replace images under `Pers/` (or `Teasers/`), commit, and push to `master`.
+1. Add or replace images under `Pers/` (or `Teasers/`), commit, and push to `main`.
 2. Tag a release: `git tag portraits-YYYY.MM.DD && git push origin portraits-YYYY.MM.DD`.
 3. CI (`.github/workflows/build.yml`) zips **all** image content into `portraits.zip` and publishes it
    as the GitHub Release asset for that tag.
