@@ -12,7 +12,8 @@ the same images were already served publicly from `clashlegends.com/portraits/`.
 
 ## Publishing a new pack (how Counselor picks it up)
 1. Add or replace images under `Pers/` (or `Teasers/`), commit, and push to `main`.
-2. Tag a release: `git tag portraits-YYYY.MM.DD && git push origin portraits-YYYY.MM.DD`.
+2. Tag a release with the **next incremental build number**: `git tag portraits-<N> && git push origin portraits-<N>`
+   (e.g. `portraits-1`, `portraits-2`, ... - a plain build counter like the other repos; never collides, even on same-day re-releases).
 3. CI (`.github/workflows/build.yml`) zips **all** image content into `portraits.zip` and publishes it
    as the GitHub Release asset for that tag.
 
