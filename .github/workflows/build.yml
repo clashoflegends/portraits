@@ -25,6 +25,9 @@ jobs:
         with:
           name: portraits
           path: portraits.zip
+          # On a tag the zip is also published permanently as the Release asset, so this workflow
+          # artifact is redundant; keep it 1 day so it does not accrue against the Actions storage quota.
+          retention-days: 1
 
       - name: Publish release (tags only)
         if: startsWith(github.ref, 'refs/tags/portraits-')
