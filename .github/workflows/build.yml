@@ -18,7 +18,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Zip portraits
-        run: zip -r portraits.zip . -x ".git/*" ".github/*" "README.md"
+        # "Default Portraits 107x151/" holds the ART MASTERS for the recolourable default set
+        # (lossless PNG, house masks, preview sheets, build script). They are kept in the repo so the
+        # originals are preserved and the set can be rebuilt, but players never need them - the
+        # runtime files live in Pers/ - so they are excluded from the pack.
+        run: zip -r portraits.zip . -x ".git/*" ".github/*" "README.md" "Default Portraits 107x151/*"
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
