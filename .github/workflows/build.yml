@@ -18,11 +18,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Zip portraits
-        # "Default Portraits 107x151/" holds the ART MASTERS for the recolourable default set
-        # (lossless PNG, house masks, preview sheets, build script). They are kept in the repo so the
-        # originals are preserved and the set can be rebuilt, but players never need them - the
-        # runtime files live in Pers/ - so they are excluded from the pack.
-        run: zip -r portraits.zip . -x ".git/*" ".github/*" "README.md" "Default Portraits 107x151/*"
+        # Excluded from the pack: SOURCE material players never need. The runtime files all live
+        # in Pers/.
+        #   "Default Portraits 107x151/" - art masters for the recolourable default set (lossless
+        #     PNG, house masks, preview sheets, build script), kept so the set can be rebuilt.
+        #   "Greek-ready-*" - the delivered Greek fresco set as received: 107x151 PNGs plus 80
+        #     nation house masks. The masks are unused, since recolour only runs on the default_
+        #     path and a character own portrait loads verbatim; the PNGs are ~3x the size of the
+        #     staged JPEGs that actually ship.
+        run: zip -r portraits.zip . -x ".git/*" ".github/*" "README.md" "Default Portraits 107x151/*" "Greek-ready-*/*" "Greek-staging/*"
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
